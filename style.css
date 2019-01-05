@@ -1,0 +1,178 @@
+body
+{
+	font-family: arial;
+	font-size: 1rem;
+	margin: 0;
+	padding: 0;
+	background: #e0e0e0;
+}
+
+a
+{
+	text-decoration: none;
+	color: black;
+}
+
+textarea
+{
+	border-radius: 0;
+	border: 0;
+	margin: 0;
+	padding: 0;
+	padding-left: 12px;
+	height: 100%;
+	width: 98.1%;
+	font-family: inherit;
+	font-size: inherit;
+	resize: vertical;
+	font-size: 1.3rem;
+	line-height: 1.5rem;
+}
+
+textarea, #labels
+{
+	background-image: url("img/textbg.png");
+	image-rendering: pixelated;
+	background-size: 100% 3rem;
+}
+
+#header
+{
+	min-height: 13vh;
+	border-top: 1px solid #60802f;
+	background: #61812e;
+	border-bottom: 2px solid #60802f;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	vertical-align: middle;
+}
+
+#headercontent
+{
+	display: flex;
+	flex-direction: row;
+	margin: auto;
+	height: 3rem;
+}
+
+#header img
+{
+	/*max-height: 5vh;*/
+	height: 120%;
+	margin: auto;
+	margin-right: 30px;
+	opacity: 0.9;
+}
+
+#headertext
+{
+	color: black;
+	font-size: 3rem;
+	margin: auto;
+}
+
+#maincontainer
+{
+	background: #eee;
+	border-bottom: 2px solid #ddd;
+}
+
+#boxcontainer
+{
+	max-width: 750px;
+	margin: auto;
+	padding-bottom: 25vh;
+}
+
+#totalcal
+{
+	color: #61812e;
+	text-align: center;
+	vertical-align: middle;
+	/*margin: 5vh;*/
+	padding: 2vh 10px;
+	font-size: 1.3rem;
+}
+
+#labeltext
+{
+	margin: auto;
+	display: grid;
+	background: #61812e;
+	grid-template-columns: 100px 1fr;
+	margin: 0px 10px;
+	min-height: 24rem; /* 1.5rem * 16 lines */
+
+	font-family: inconsolata;
+	font-size: 1.3rem;
+	line-height: 1.5rem;
+}
+
+#labels
+{
+	display: flex;
+	flex-direction: column;
+	text-align: right;
+	color: #61812e;
+	margin: 2px;
+	margin-right: 1px;
+	padding: 0 1rem;
+}
+
+.calories
+{
+	font-size: 1.5rem;
+	height: 2rem;
+}
+
+#textcontainer
+{
+	margin: 2px;
+	margin-left: 1px;
+}
+
+#bottom
+{
+	width: 100%;
+	background: #e0e0e0;
+	display: flex;
+	align-content: flex-start;
+	justify-content: flex-start;
+	flex-direction: row;
+}
+
+#notescontainer
+{
+	display: flex;
+	align-content: flex-end;
+	justify-content: center;
+	padding-right: 10px;
+	/*max-width: 860px;*/
+	margin: auto;
+}
+
+#notes
+{
+	margin: 30px 10px 0px 10px;
+	color: #777;
+	padding: 10px;
+	/*background: #e0e0e0;*/
+	/*border: 2px solid #ccc;*/
+}
+
+#notes ul li
+{
+	padding-bottom: 15px;
+	line-height: 1.3rem;
+}
+
+#notes .example
+{
+	display: inline;
+	padding: 3px 5px;
+	background: #ccc;
+	color: black;
+	/*border-radius: 2px;*/
+	border: 1px solid #aaa;
+}
