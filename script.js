@@ -220,6 +220,9 @@ function update_labels_singlestep()
 
 	var totalcal_div = document.querySelector("#totalcal h2");
 	totalcal_div.innerText = Math.round(total).toString()+" kcal";
+
+	box_total = Math.round(total);
+	box_labels = labels;
 }
 
 
@@ -302,6 +305,49 @@ function parse_amount(somestring)
 		return parseInt(somestring.replace("g",""));
 }
 
+
+function download(content, fileName, contentType)
+{
+    var newelement = document.createElement("a");
+    var file = new Blob([content], {type: contentType});
+    newelement.href = URL.createObjectURL(file);
+    newelement.download = fileName;
+	newelement.style.display = "none";
+	document.body.appendChild(newelement);
+    newelement.click();
+	document.body.removeChild(newelement);
+	setTimeout(function() { URL.revokeObjectURL(newelement.href); }, 1000);
+}
+
+
+function get_date_today()
+{
+	var date = new Date();
+
+	var year = date.getFullYear();
+	var month = date.getMonth() + 1;
+	var day = date.getDay();
+
+	var text = `${year}-${month}-${day}`;
+	return text;
+}
+
+
+function download_textarea()
+{
+	var date = get_date_today();
+	var text = date+" ("+box_total.toString()+" kcal)\r\n";
+
+	var lines = textarea.value.split('\n');
+	for(var i=0; i<lines.length; i++)
+		text += "\r\n"+box_labels[i]+"\t"+lines[i];
+
+	console.log(text);
+	var filename = "Kiwi "+date+" ("+box_total.toString()+" kcal).txt";
+	download(text, filename, 'text/plain');
+}
+
+
 function update()
 {
 	update_labels();
@@ -349,6 +395,9 @@ var timer_sleep = 0;
 var foodlist;
 fetch_json("https://engivirus.github.io/kiwi/food.json");
 
+// only used for txt download
+var box_total = 0;
+var box_labels = [];
 
 // load most recent items into textbox
 var savedtext = localStorage.getItem('textbox');

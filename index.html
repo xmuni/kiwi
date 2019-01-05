@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div id="header">
-		<a id="headercontent" href="https://xmuni.github.io/kiwi/">
+		<a id="headercontent" href="https://engivirus.github.io/kiwi/">
 			<img id="headerlogo" src="img/kiwi-favicon.png">
 			<div id="headertext">Kiwi</div>
 		</a>
@@ -30,20 +30,22 @@
 		</div>
 	</div>
 
-	<!-- <div id="bottom"> -->
-		<div id="notescontainer">
-			<div id="notes">
-				<div><strong>Tips</strong></div>
-				<ul>
-					<li>Each food entry should be formatted like this: <div class="example">30g potatoes</div></li>
-					<li>You can enter calories manually. Try typing <div class="example">400kcal</div></li>
-					<li>You can set custom foods if you know the calories per 100g.<br/>
-						Try this: <div class="example">40g chocolate 200kcal</div></li>
-				</ul>
-			</div>
-		</div>
-	<!-- </div> -->
+	<div id="controls">
+		<input type="button" onclick="download_textarea();" value="Download entries as text file">
+	</div>
 
-<script type="text/javascript" src="script.js"></script>
+	<div id="notescontainer">
+		<div id="notes">
+			<div><strong>Tips</strong></div>
+			<ul>
+				<li>Each food entry should be formatted like this: <div class="example">30g potatoes</div></li>
+				<li>You can enter calories manually. Try typing <div class="example">400kcal</div></li>
+				<li>You can set custom foods if you know the calories per 100g.<br/>
+					Try this: <div class="example">40g chocolate 200kcal</div></li>
+			</ul>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>
