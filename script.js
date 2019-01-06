@@ -326,7 +326,7 @@ function get_date_today()
 
 	var year = date.getFullYear();
 	var month = date.getMonth() + 1;
-	var day = date.getDay();
+	var day = date.getDate();
 
 	var text = `${year}-${month}-${day}`;
 	return text;
