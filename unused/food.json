@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
 	"olive": 145,
 	"broccoli": 35,
@@ -42,4 +43,50 @@
 	"ciambella": 444,
 
 
+=======
+{
+	"olive": 145,
+	"broccoli": 35,
+	"bread": 252,
+	"rice": 130,
+	"tomato": 18,
+	"tomatoe": 18,
+	"mandarin": 53,
+	"salmon": 244,
+	"artichoke": 71,
+	"spaetzle": 153,
+	"tofu": 183,
+	"chocolate": 598,
+	"potato": 87,
+	"potatoe": 87,
+	"spinach": 23,
+	"lentil": 116,
+	"chickpea": 164,
+	"pasta": 149,
+	"spaghetti": 149,
+	"banana": 89,
+	"apple": 52,
+	"sundried tomato": 213,
+	"bean": 124,
+	"mixed nut": 615,
+	"apricot": 241,
+	"almond": 579,
+	"string bean": 35,
+	"pear": 57,
+	"pea": 78,
+	"couscous": 112,
+	"soy milk": 54,
+	"pizza": 227,
+	"egg": 155,
+	"tuna": 198,
+	"mackerel": 156,
+	"gnocchi": 133,
+	"pandoro": 410,
+	"orange": 47,
+	"cod": 105,
+	"cauliflower": 23,
+	"ciambella": 444,
+
+
+>>>>>>> 8dc865ad59d81d62a25f588216423b288ac2bc0e
 }
