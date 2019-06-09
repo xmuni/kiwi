@@ -51,7 +51,7 @@ class Panel
 		for(var i=0; i<this.storage.length; i++)
 			temptotal += this.storage[i][1];
 		this.total = temptotal;
-		this.totaldiv.innerText = Math.round(this.total).toString()+" kcal";
+		this.totaldiv.innerText = Math.round(this.total).toString()+" Cal";
 	}
 
 	WriteLabels()
