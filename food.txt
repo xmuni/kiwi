@@ -1,52 +1,3 @@
-<<<<<<< HEAD
-145, olive
-35, broccoli
-252, bread, pane
-130, rice, riso, risotto
-18, tomato, tomatoe, pomodoro
-53, mandarin, mandarini, mandarino
-244, salmon, salmone
-71, artichoke, carciofo, carciofi
-153, spaetzle
-183, tofu
-598, chocolate, cioccolata, cioccolato
-87, potato, potatoe, patate
-23, spinach, spinaci
-116, lentil, lenticchie
-164, chickpea, ceci
-149, pasta
-149, spaghetti
-89, banana
-52, apple, mela, mele
-21, sundried tomato, pomodori soleggiati, pomodori secchi
-124, bean, fagioli
-615, mixed nut, noci
-241, apricot, albicocche
-579, almond, mandorle
-35, string bean, fagiolini
-57, pear, pere, pera
-78, pea, piselli
-112, couscous, cous cous
-54, soymilk, latte di soia
-227, pizza
-155, egg, uova, uovo
-198, tuna, tonno
-156, mackerel, sgombro, sgombri
-133, gnocchi
-410, pandoro
-47, orange, arancia, arance
-105, cod, merluzz, pesce
-23, cauliflower, cavolfiore, cavolfiori, cavolo, cavoli
-444, ciambella
-400, cheese, formaggio
-61, milk, latte
-85, wine, vino
-43, beer, birra
-271, carne
-145, polenta
-46, cranberry juice
-74, mais
-=======
 145, olive
 35, broccoli
 252, bread, pane
@@ -93,4 +44,3 @@
 271, carne
 145, polenta
 46, cranberry juice
->>>>>>> 8dc865ad59d81d62a25f588216423b288ac2bc0e
