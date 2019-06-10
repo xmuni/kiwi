@@ -117,14 +117,16 @@ textarea, #labels
 	text-align: right;
 	font-family: inconsolata;
 	font-size: 1.3rem;
-	color: #61812e;
+	/* color: #61812e; */
+	color: #186fd3;
 }
 
 #labeltext
 {
 	margin: auto;
 	display: grid;
-	background: #61812e;
+	/* background: #61812e; */
+	background: #7895b9;
 	grid-template-columns: 100px 1fr;
 	margin: 0px 10px;
 	min-height: 24rem; /* 1.5rem * 16 lines */
@@ -140,7 +142,8 @@ textarea, #labels
 	display: flex;
 	flex-direction: column;
 	text-align: right;
-	color: #61812e;
+	/* color: #61812e; */
+	color: #186fd3;
 	margin: 2px;
 	margin-right: 1px;
 	padding: 0 1rem;
@@ -156,6 +159,23 @@ textarea, #labels
 {
 	margin: 2px;
 	margin-left: 1px;
+}
+
+#prev-next {
+	display: flex;
+	justify-content: center;
+	margin: 10px;
+	color: #186fd3;
+}
+
+#prev-next #button-prev, #button-next {
+	cursor: pointer;
+	font-family: "inconsolata";
+	font-size: 1.2rem;
+}
+
+#prev-next #spacer {
+	margin: 0 2rem;
 }
 
 #controls
