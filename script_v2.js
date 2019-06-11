@@ -88,11 +88,37 @@ class Panel
 			this.UpdateStorage();
 			this.UpdateTotal();
 			this.WriteLabels();
-
 			console.log("Panel updated from foodlist");
-			localStorage.setItem('textbox', JSON.stringify(textarea.value));
-		}
+
+			// Save all entries for the current day into storage
+			var storage_text = localStorage.getItem(lsname);
+
+			// Update the localStorage with key/value pair
+			// using the current date as key and the textbox content as value
+			// Create the localStorage if necessary
+			var storage_obj = JSON.parse(storage_text);
 		
+			var datecode = get_date_string(currentdate);
+			storage_obj[datecode] = textarea.value;
+			localStorage.setItem(lsname, JSON.stringify(storage_obj));
+		}
+	}
+
+	LoadFromStorage() // Load items to textbox and update the localStorage
+	{
+		var storage_text = localStorage.getItem(lsname);
+
+		var storage_obj = JSON.parse(storage_text);
+	
+		var datecode = get_date_string(currentdate);
+		if(datecode in storage_obj)
+			textarea.value = storage_obj[datecode];
+		else
+			textarea.value = "";
+
+		this.UpdateStorage();
+		this.UpdateTotal();
+		this.WriteLabels();
 	}
 
 	ExportTxt()
@@ -126,7 +152,19 @@ class Panel
 
 		this.WriteLabels();
 		this.UpdateTotal();
-		localStorage.removeItem('textbox');
+		// var datecode = get_date_string(currentdate);
+		// localStorage.removeItem(datecode);
+
+		/*
+		var storage_text = localStorage.getItem(lsname);
+		if(storage_text != null)
+		{
+			var storage_obj = JSON.parse(storage_text);
+			var datecode = get_date_string(currentdate);
+			delete storage_obj[datecode];
+			localStorage.setItem(lsname, JSON.stringify(storage_obj));
+		}
+		*/
 
 		console.log("Panel cleared");
 	}
@@ -308,6 +346,39 @@ function get_date_today()
 }
 
 
+// Shifts a date by a certain number of days (positive or negative)
+function change_date(old_date, difference)
+{
+    var newdate = new Date(old_date.getFullYear(),old_date.getMonth(),old_date.getDate()+difference);
+    return newdate;
+}
+
+
+function change_currentdate(difference)
+{
+	panel.Clear(); // Clear textbox
+	currentdate = change_date(currentdate,difference);
+	panel.LoadFromStorage(); // Load textbox content from localStorage
+	update_next_prev_buttons(); // Change prev/next day button labels
+	console.log("Current date: "+currentdate);
+}
+
+
+// Turns a date object into a string like "20190611"
+function get_date_string(date)
+{
+	var year = date.getFullYear();
+	var month = date.getMonth()+1;
+	var day = date.getDate();
+
+	if(month<10)
+		month = "0"+month;
+	if(day<10)
+		day = "0"+day;
+
+	return year+month+day;
+}
+
 function update_panel()
 {
 	panel.UpdatePanel(foodlist);
@@ -318,9 +389,70 @@ function update_panel()
 }
 
 
+function create_localstorage()
+{
+	var storage_text = localStorage.getItem(lsname);
+		
+	if(storage_text == null)
+	{
+		var storage_obj = {};
+		localStorage.setItem(lsname, JSON.stringify(storage_obj));
+	}
+}
+
+
+function update_next_prev_buttons()
+{
+	var prev_date = change_date(currentdate,-1);
+	var next_date = change_date(currentdate,+1);
+
+	var label_prev  = "< "+get_month_name(prev_date.getMonth()+1)+" "+(prev_date.getDate());
+	var label_today =      get_month_name(currentdate.getMonth()+1)+" "+(currentdate.getDate());
+	var label_next  =      get_month_name(next_date.getMonth()+1)+" "+(next_date.getDate())+" >";
+
+	document.querySelector("#button-prev-day").innerText = label_prev;
+	document.querySelector("#current-day").innerText = label_today;
+	document.querySelector("#button-next-day").innerText = label_next;
+}
+
+
+// Gets the English name of a month number: 10 -> "October"
+function get_month_name(month_number)
+{
+	var month_names = {
+		1: "Jan",
+		2: "Feb",
+		3: "Mar",
+		4: "Apr",
+		5: "May",
+		6: "June",
+		7: "July",
+		8: "Aug",
+		9: "Sep",
+		10: "Oct",
+		11: "Nov",
+		12: "Dec"
+	}
+	if(month_number in month_names)
+		return month_names[month_number];
+	else
+	{
+		console.log("Error: "+month_number+" has no month name associated");
+		return "NAME";
+	}
+}
+
+
 /******************************************************/
 /*                        Main                        */
 /******************************************************/
+
+
+// Default to today and create localStorage if necessary
+var currentdate = new Date();
+var lsname = "kiwi"; // localStorage name
+update_next_prev_buttons();
+create_localstorage();
 
 
 // Load the food dictionary
@@ -335,7 +467,12 @@ if(savedtext !== null)
 	textarea.value = JSON.parse(savedtext);
 
 
-// Set up the panel info
+// Set up the panel info and load from storage
 var panel = new Panel("textarea", "#labels", "#totalcal h2");
 textarea.addEventListener("keyup", update_panel);
 window.setTimeout(update_panel, 100);
+
+
+// Set up the prev/next day buttons
+document.querySelector("#button-prev-day").addEventListener("click", function(){ change_currentdate(-1) });
+document.querySelector("#button-next-day").addEventListener("click", function(){ change_currentdate(+1) });

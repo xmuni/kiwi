@@ -164,18 +164,36 @@ textarea, #labels
 #prev-next {
 	display: flex;
 	justify-content: center;
-	margin: 10px;
+	margin: 1rem 0;
+}
+
+#prev-next * {
+	margin: 0 1.5rem;
+	font-size: 1.2rem;
+	font-family: "inconsolata";
+	min-width: 6rem;
+	text-align: center;
+}
+
+#prev-next #button-prev-day, #button-next-day {
+	cursor: pointer;
 	color: #186fd3;
 }
 
-#prev-next #button-prev, #button-next {
+#prev-next #button-prev-day:hover, #button-next-day:hover {
 	cursor: pointer;
-	font-family: "inconsolata";
-	font-size: 1.2rem;
+	/* text-decoration: underline; */
+	color: #1c7be7;
 }
 
-#prev-next #spacer {
-	margin: 0 2rem;
+#prev-next #button-prev-day:active, #button-next-day:active {
+	cursor: pointer;
+	color: #0a325f;
+}
+
+#prev-next #current-day {
+	color: #333;
+	/* font-size: 1.5rem; */
 }
 
 #controls
