@@ -8,10 +8,11 @@ function fetch_json(url)
 			return response.json();
 		})
 		.then(function(data) {
-			console.log(data);
+			// console.log(data);
 			foodlist = data;
 			// update_panel();
 			// panel.LoadFromStorage();
+			localStorage.setItem(flname,JSON.stringify(data));
 		})
 		.catch(error => console.error(error))
 }
@@ -110,7 +111,6 @@ class Panel
 	LoadFromStorage() // Load items to textbox and update the localStorage
 	{
 		var storage_text = localStorage.getItem(lsname);
-
 		var storage_obj = JSON.parse(storage_text);
 	
 		var datecode = get_date_string(currentdate);
@@ -491,7 +491,8 @@ function get_month_name(month_number)
 
 // Default to today and create localStorage if necessary
 var currentdate = new Date();
-var lsname = "kiwi"; // localStorage name
+var lsname = "kiwi"; // localStorage label for storing the saved days
+var flname = "foodlist"; // localStorage label for foodlist dictionary
 var offline = false;
 update_next_prev_buttons();
 create_localstorage();
@@ -500,6 +501,11 @@ create_localstorage();
 // Load the food dictionary
 var textarea = document.querySelector("textarea");
 var foodlist;
+if(localStorage[flname] !== undefined)
+{
+	foodlist = JSON.parse(localStorage[flname]);
+	// console.log("Foodlist parse from local storage");
+}
 if(!offline)
 	fetch_json("https://xmuni.github.io/kiwi/food.json");
 
@@ -508,8 +514,7 @@ if(!offline)
 var panel = new Panel("textarea", "#labels", "#totalcal h2");
 
 window.setTimeout(function() { panel.LoadFromStorage(); }, 100);
-window.setTimeout(function() { update_panel() }, 300);
-window.setTimeout(function() { update_panel() }, 600);
+window.setTimeout(function() { update_panel() }, 200);
 window.setTimeout(() => panel.textarea.addEventListener("keyup", update_panel), 100);
 
 
