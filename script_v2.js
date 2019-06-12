@@ -504,16 +504,11 @@ if(!offline)
 	fetch_json("https://xmuni.github.io/kiwi/food.json");
 
 
-// Load most recent items into textbox
-// var savedtext = localStorage.getItem('textbox');
-// if(savedtext !== null)
-// 	textarea.value = JSON.parse(savedtext);
-
-
 // Set up the panel info and load from storage
 var panel = new Panel("textarea", "#labels", "#totalcal h2");
 
 window.setTimeout(function() { panel.LoadFromStorage(); update_panel(); }, 100);
+window.setTimeout(function() { update_panel() }, 200);
 window.setTimeout(() => panel.textarea.addEventListener("keyup", update_panel), 100);
 
 
