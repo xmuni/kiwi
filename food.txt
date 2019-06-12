@@ -20,7 +20,7 @@
 21, sundried tomato, pomodori soleggiati, pomodori secchi
 124, bean, fagioli
 615, mixed nut, noci
-241, apricot, albicocch
+241, apricot, albicocche, albicocca
 579, almond, mandorle
 35, string bean, fagiolini
 57, pear, pere, pera
@@ -35,7 +35,7 @@
 410, pandoro
 47, orange, arancia, arance
 105, cod, merluzz, pesce
-23, cauliflower, cavolfior, cavol
+23, cauliflower, cavolfiore, cavolfiori, cavolo, cavoli
 444, ciambella
 400, cheese, formaggio
 61, milk, latte
@@ -44,3 +44,4 @@
 271, carne
 145, polenta
 46, cranberry juice
+61, kiwi

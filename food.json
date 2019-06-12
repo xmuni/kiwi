@@ -40,7 +40,8 @@
 	"mixed nut": 615,
 	"noci": 615,
 	"apricot": 241,
-	"albicocch": 241,
+	"albicocche": 241,
+	"albicocca": 241,
 	"almond": 579,
 	"mandorle": 579,
 	"string bean": 35,
@@ -71,8 +72,10 @@
 	"merluzz": 105,
 	"pesce": 105,
 	"cauliflower": 23,
-	"cavolfior": 23,
-	"cavol": 23,
+	"cavolfiore": 23,
+	"cavolfiori": 23,
+	"cavolo": 23,
+	"cavoli": 23,
 	"ciambella": 444,
 	"cheese": 400,
 	"formaggio": 400,
@@ -84,5 +87,6 @@
 	"birra": 43,
 	"carne": 271,
 	"polenta": 145,
-	"cranberry juice": 46
+	"cranberry juice": 46,
+	"kiwi": 61
 }
