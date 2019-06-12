@@ -513,8 +513,7 @@ if(!offline)
 // Set up the panel info and load from storage
 var panel = new Panel("textarea", "#labels", "#totalcal h2");
 
-window.setTimeout(function() { panel.LoadFromStorage() }, 100);
-window.setTimeout(function() { update_panel() }, 500);
+window.setTimeout(function() { panel.LoadFromStorage(); update_panel(); }, 100);
 window.setTimeout(() => panel.textarea.addEventListener("keyup", update_panel), 100);
 
 
