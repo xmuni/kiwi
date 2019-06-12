@@ -159,8 +159,13 @@ textarea, #labels
 	margin-left: 1px;
 }
 
+#textarea {
+	resize: none;
+}
+
 #prev-next {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
 	margin: 1rem 0;
 }
@@ -197,6 +202,7 @@ textarea, #labels
 {
 	width: 100%;
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
 }
 
@@ -209,6 +215,7 @@ textarea, #labels
 #notescontainer
 {
 	display: flex;
+	flex-wrap: wrap;
 	align-content: flex-end;
 	justify-content: center;
 	padding-right: 10px;
