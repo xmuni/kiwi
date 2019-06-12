@@ -10,7 +10,7 @@ function fetch_json(url)
 		.then(function(data) {
 			console.log(data);
 			foodlist = data;
-			update_panel();
+			// update_panel();
 		})
 		.catch(error => console.error(error))
 }
@@ -26,6 +26,8 @@ class Panel
 
 		this.storage = [];
 		this.total = 0;
+		
+		// this.LoadFromStorage();
 	}
 
 	UpdateStorage()
@@ -79,7 +81,7 @@ class Panel
 
 	UpdatePanel(food_dict)
 	{
-		if(typeof food_dict === "undefined")
+		if(typeof food_dict === "undefined" && !offline)
 		{
 			console.log("Foodlist is undefined");
 		}
@@ -112,9 +114,15 @@ class Panel
 	
 		var datecode = get_date_string(currentdate);
 		if(datecode in storage_obj)
+		{
+			console.log("Loading from storage");
 			textarea.value = storage_obj[datecode];
+		}
 		else
+		{
+			console.log("Loading nothing");
 			textarea.value = "";
+		}
 
 		this.UpdateStorage();
 		this.UpdateTotal();
@@ -149,6 +157,11 @@ class Panel
 		this.storage = [];
 		this.total = 0;
 		this.textarea.value = "";
+
+		var storage_obj = JSON.parse(localStorage.getItem(lsname));
+		var datecode = get_date_string(currentdate);
+		delete storage_obj[datecode];
+		localStorage.setItem(lsname, JSON.stringify(storage_obj));
 
 		this.WriteLabels();
 		this.UpdateTotal();
@@ -191,6 +204,13 @@ class Panel
 */
 function parse_line(line)
 {
+	// console.log(typeof food_dict);
+	// if(typeof food_dict === "undefined")
+	// {
+	// 	console.log("Parsing with undefined dictionary");
+	// 	return [line, 0, "_"];
+	// }
+
 	var label_number = 0;
 	var label_string = "";
 	
@@ -328,7 +348,7 @@ function download_txt()
 function clear_textarea()
 {
 	if(panel.textarea.value !== ""
-	&& window.confirm("Delete all entries?")) 
+	&& window.confirm("Delete all entries for the current day?")) 
 		panel.Clear();
 }
 
@@ -356,11 +376,11 @@ function change_date(old_date, difference)
 
 function change_currentdate(difference)
 {
-	panel.Clear(); // Clear textbox
+	// panel.Clear(); // Clear textbox
 	currentdate = change_date(currentdate,difference);
 	panel.LoadFromStorage(); // Load textbox content from localStorage
 	update_next_prev_buttons(); // Change prev/next day button labels
-	console.log("Current date: "+currentdate);
+	// console.log("Current date: "+currentdate);
 }
 
 
@@ -383,9 +403,12 @@ function update_panel()
 {
 	panel.UpdatePanel(foodlist);
 	// console.log("Values updated");
+}
 
-	// save all textarea items to local storage
-	// localStorage.setItem('textbox', JSON.stringify(textarea.value));
+
+function load_from_storage()
+{
+	panel.LoadFromStorage();
 }
 
 
@@ -393,11 +416,25 @@ function create_localstorage()
 {
 	var storage_text = localStorage.getItem(lsname);
 		
-	if(storage_text == null)
+	if(storage_text === null)
 	{
 		var storage_obj = {};
 		localStorage.setItem(lsname, JSON.stringify(storage_obj));
 	}
+}
+
+
+function update_localstorage(datecode,text)
+{
+	var storage_text = localStorage.getItem(lsname);
+	var storage_obj = JSON.parse(storage_text);
+
+	if(text === "")
+		delete storage_obj[datecode];
+	else
+		storage_obj[datecode] = text;
+
+	localStorage.setItem(lsname, JSON.stringify(storage_obj));
 }
 
 
@@ -451,6 +488,7 @@ function get_month_name(month_number)
 // Default to today and create localStorage if necessary
 var currentdate = new Date();
 var lsname = "kiwi"; // localStorage name
+var offline = false;
 update_next_prev_buttons();
 create_localstorage();
 
@@ -458,19 +496,21 @@ create_localstorage();
 // Load the food dictionary
 var textarea = document.querySelector("textarea");
 var foodlist;
-fetch_json("https://engivirus.github.io/kiwi/food.json");
+if(!offline)
+	fetch_json("https://xmuni.github.io/kiwi/food.json");
 
 
 // Load most recent items into textbox
-var savedtext = localStorage.getItem('textbox');
-if(savedtext !== null)
-	textarea.value = JSON.parse(savedtext);
+// var savedtext = localStorage.getItem('textbox');
+// if(savedtext !== null)
+// 	textarea.value = JSON.parse(savedtext);
 
 
 // Set up the panel info and load from storage
 var panel = new Panel("textarea", "#labels", "#totalcal h2");
-textarea.addEventListener("keyup", update_panel);
-window.setTimeout(update_panel, 100);
+
+window.setTimeout(function() { panel.LoadFromStorage() }, 100);
+window.setTimeout(() => panel.textarea.addEventListener("keyup", update_panel), 100);
 
 
 // Set up the prev/next day buttons

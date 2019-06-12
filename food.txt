@@ -10,7 +10,7 @@
 183, tofu
 598, chocolate, cioccolat
 87, potato, potatoe, patat
-23, spinac
+23, spinac, spinach, spinaci
 116, lentil, lenticchie
 164, chickpea, ceci
 149, pasta
