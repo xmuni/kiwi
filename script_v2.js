@@ -509,6 +509,7 @@ var panel = new Panel("textarea", "#labels", "#totalcal h2");
 
 window.setTimeout(function() { panel.LoadFromStorage(); }, 100);
 window.setTimeout(function() { update_panel() }, 300);
+window.setTimeout(function() { update_panel() }, 600);
 window.setTimeout(() => panel.textarea.addEventListener("keyup", update_panel), 100);
 
 
