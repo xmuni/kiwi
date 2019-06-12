@@ -115,12 +115,12 @@ class Panel
 		var datecode = get_date_string(currentdate);
 		if(datecode in storage_obj)
 		{
-			console.log("Loading from storage");
+			// console.log("Loading from storage");
 			textarea.value = storage_obj[datecode];
 		}
 		else
 		{
-			console.log("Loading nothing");
+			// console.log("Loading nothing");
 			textarea.value = "";
 		}
 
@@ -296,20 +296,23 @@ function has_digits(string)
 
 function get_food_match(foodname, dict)
 {
-	if(dict.hasOwnProperty(foodname))
-		return foodname;
-
-	if(foodname.endsWith('s'))
+	if(typeof dict !== "undefined")
 	{
-		var singular = foodname.slice(0,-1);
-		if(dict.hasOwnProperty(singular))
-			return singular;
-	}
+		if(dict.hasOwnProperty(foodname))
+			return foodname;
 
-	for(var key in dict)
-		if(dict.hasOwnProperty(key)
-		&& key.startsWith(foodname))
-			return key;
+		if(foodname.endsWith('s'))
+		{
+			var singular = foodname.slice(0,-1);
+			if(dict.hasOwnProperty(singular))
+				return singular;
+		}
+
+		for(var key in dict)
+			if(dict.hasOwnProperty(key)
+			&& key.startsWith(foodname))
+				return key;
+	}
 	
 	return "";
 }
@@ -510,6 +513,7 @@ if(!offline)
 var panel = new Panel("textarea", "#labels", "#totalcal h2");
 
 window.setTimeout(function() { panel.LoadFromStorage() }, 100);
+window.setTimeout(function() { update_panel() }, 500);
 window.setTimeout(() => panel.textarea.addEventListener("keyup", update_panel), 100);
 
 
