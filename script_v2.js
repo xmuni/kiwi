@@ -11,6 +11,7 @@ function fetch_json(url)
 			console.log(data);
 			foodlist = data;
 			// update_panel();
+			// panel.LoadFromStorage();
 		})
 		.catch(error => console.error(error))
 }
@@ -37,7 +38,7 @@ class Panel
 		{
 			if(this.storage.length < i+1)
 				this.storage.push(parse_line(lines[i]));
-			else if(lines[i] !== this.storage[i][0])
+			else if(lines[i] !== this.storage[i][0] || this.storage[i][2] === "?")
 				this.storage[i] = parse_line(lines[i]);
 			// else
 				// console.log("Line has not changed");
