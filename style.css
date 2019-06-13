@@ -233,9 +233,14 @@ textarea, #labels
 	/*border: 2px solid #ccc;*/
 }
 
-#notes ul li
+#notes #tips-heading {
+	text-align: center;
+	font-weight: bold;
+}
+
+#notes ul li, #notes p
 {
-	padding-bottom: 15px;
+	margin: 1rem auto;
 	line-height: 1.3rem;
 }
 
