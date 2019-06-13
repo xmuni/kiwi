@@ -69,11 +69,13 @@ class Panel
 		{
 			var new_div = document.createElement("div");
 
-			var text = "";
-			if(this.storage[i][2] == "")
-				text = Math.round(this.storage[i][1]);
-			else
-				text = this.storage[i][2];
+			// var text = "";
+			// if(this.storage[i][2] == "")
+			// 	text = Math.round(this.storage[i][1]);
+			// else
+			// 	text = this.storage[i][2];
+
+			var text = (this.storage[i][2]=="") ? Math.round(this.storage[i][1]) : this.storage[i][2];
 			
 			var new_content = document.createTextNode(text);
 			new_div.appendChild(new_content);
@@ -132,25 +134,27 @@ class Panel
 
 	ExportTxt()
 	{
-		var date = get_date_today();
-		var totalstring = Math.round(this.total).toString();
+		// var date = get_date_today();
+		// var totalstring = Math.round(this.total).toString();
 
-		var text = date+" ("+totalstring+" kcal)\r\n";
+		// var text = date+" ("+totalstring+" kcal)\r\n";
 
-		for(var i=0; i<this.storage.length; i++)
-		{
-			var labelnumber = this.storage[i][1];
-			var labelstring = this.storage[i][2];
+		// for(var i=0; i<this.storage.length; i++)
+		// {
+		// 	var labelnumber = this.storage[i][1];
+		// 	var labelstring = this.storage[i][2];
 
-			if(labelstring === "")
-				text += "\r\n"+Math.round(labelnumber).toString()+"\t"+this.storage[i][0];
-			else
-				text += "\r\n"+labelstring+"\t"+this.storage[i][0];
-		}
+		// 	if(labelstring === "")
+		// 		text += "\r\n"+Math.round(labelnumber).toString()+"\t"+this.storage[i][0];
+		// 	else
+		// 		text += "\r\n"+labelstring+"\t"+this.storage[i][0];
+		// }
 
-		console.log(text);
-		var filename = "Kiwi "+date+" ("+totalstring+" kcal).txt";
-		download(text, filename, 'text/plain');
+		// console.log(text);
+		var info = day_to_string(get_date_string(currentdate));
+		var filename = `Kiwi ${currentdate.getFullYear()}-${currentdate.getMonth()+1}-${currentdate.getDate()}`;
+		filename += ` (${Math.round(info[1])} Cal).txt`;
+		download(info[0], filename, 'text/plain');
 	}
 
 	Clear()
@@ -203,6 +207,10 @@ class Panel
 	- manual kcal insert
 	- weighted manual entry
 */
+// Returns an array:
+// [0] = original line text
+// [1] = Calories
+// [2] = string as replacement for calories ("?" or "_")
 function parse_line(line)
 {
 	// console.log(typeof food_dict);
@@ -327,6 +335,94 @@ function parse_amount(somestring)
 		return 1000 * parseFloat(remove_nondigits(somestring));
 	else
 		return parseFloat(remove_nondigits(somestring));
+}
+
+
+// Returns array:
+// [0] = full string
+// [1] = total calories for the day
+function day_to_string(datecode)
+{
+
+	// var datecode = get_date_string(date);
+	var storage_obj = JSON.parse(localStorage.getItem(lsname));
+
+	if(datecode in storage_obj)
+	{
+		var parsed_lines = "";
+		var totalcal = 0;
+		var lines = storage_obj[datecode].split('\n');
+
+		// Parse each line for the current day
+		for(var i=0; i<lines.length; i++)
+		{
+			var info = parse_line(lines[i]);
+			var text = info[0];
+			var cal = info[1];
+			var alt = info[2]; // alternate label
+			
+			var label = alt;
+			if(alt === "")
+			{
+				label = Math.round(cal);
+				totalcal += cal;
+			}
+
+			parsed_lines += `\r\n${label}\t${text}`;
+		}
+
+		var year = datecode.slice(0,4);
+		var month = datecode.slice(4,6);
+		var day = datecode.slice(6,8);
+		var date = `${year}/${month}/${day}`;
+		var totalstring = `${Math.round(totalcal)} Cal`;
+		
+		var text = date+"\t"+totalstring+"\r\n"+parsed_lines;
+		// console.log(text);
+		return [text,totalcal];
+	}
+	else
+	{
+		console.log("Date not found");
+		return ["",0];
+	}
+
+	// var text = date+" ("+totalstring+" kcal)\r\n";
+
+	// var filename = "Kiwi "+date+" ("+totalstring+" kcal).txt";
+	// download(text, filename, 'text/plain');
+}
+
+
+function export_all()
+{
+	var storage_obj = JSON.parse(localStorage.getItem(lsname));
+
+	var days = [];
+	for(var key in storage_obj)
+		days.push(day_to_string(key)[0]);
+
+	var text = days.join("\r\n\r\n");
+	console.log(text);
+	download(text, "Kiwi.txt", 'text/plain');
+}
+
+/*
+function echo_storage()
+{
+	var storage_obj = JSON.parse(localStorage.getItem(lsname));
+
+	for(var key in storage_obj)
+	{
+		console.log(key+": "+storage_obj[key]);
+	}
+}
+*/
+
+function get_next_monday(date)
+{
+	var next_monday = new Date(date.getFullYear(), date.getMonth(), date.getDate()+(9 - date.getDay()));
+	return next_monday;
 }
 
 
