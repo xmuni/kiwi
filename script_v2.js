@@ -97,15 +97,16 @@ class Panel
 			console.log("Panel updated from foodlist");
 
 			// Save all entries for the current day into storage
-			var storage_text = localStorage.getItem(lsname);
+			var storage_obj = JSON.parse(localStorage.getItem(lsname));
+			var datecode = get_date_string(currentdate);
 
 			// Update the localStorage with key/value pair
 			// using the current date as key and the textbox content as value
 			// Create the localStorage if necessary
-			var storage_obj = JSON.parse(storage_text);
-		
-			var datecode = get_date_string(currentdate);
-			storage_obj[datecode] = textarea.value;
+			if(textarea.value === "")
+				delete storage_obj[datecode];
+			else
+				storage_obj[datecode] = textarea.value;
 			localStorage.setItem(lsname, JSON.stringify(storage_obj));
 		}
 	}
@@ -152,7 +153,7 @@ class Panel
 
 		// console.log(text);
 		var info = day_to_string(get_date_string(currentdate));
-		var filename = `Kiwi ${currentdate.getFullYear()}-${currentdate.getMonth()+1}-${currentdate.getDate()}`;
+		var filename = `Kiwi ${currentdate.getFullYear()}-${currentdate.getMonth()+1}-${currentdate.getUTCDate()}`;
 		filename += ` (${Math.round(info[1])} Cal).txt`;
 		download(info[0], filename, 'text/plain');
 	}
@@ -419,12 +420,45 @@ function echo_storage()
 }
 */
 
-function get_next_monday(date)
+/*
+function get_monday(date, next)
 {
-	var next_monday = new Date(date.getFullYear(), date.getMonth(), date.getDate()+(9 - date.getDay()));
-	return next_monday;
+	// Next Monday
+	if(next)
+	{
+		var next_monday = new Date(date.getFullYear(), date.getMonth(), date.getUTCDate()+(9 - date.getDay()));
+		return next_monday;
+	}
+	// The current week's Monday
+	else
+	{
+		var next_monday = new Date(date.getFullYear(), date.getMonth(), date.getUTCDate()+(2 - date.getDay()));
+		return next_monday;
+	}
+}
+*/
+
+
+function get_weekday(date)
+{
+	if(date.getUTCDay() === 0)
+		return 6;
+	else
+		return date.getUTCDay() - 1;
 }
 
+function get_monday(date, next)
+{
+	var weekday = get_weekday(date);
+
+	// Next Monday
+	if(next)
+		return change_date(date,7-weekday);
+
+	// The current week's Monday
+	else
+		return change_date(date,-weekday);
+}
 
 function download(content, fileName, contentType)
 {
@@ -459,7 +493,7 @@ function get_date_today()
 
 	var year = date.getFullYear();
 	var month = date.getMonth() + 1;
-	var day = date.getDate(); // "getDay()" instead returns 0 for monday, 1 for tuesday, etc
+	var day = date.getUTCDate(); // "getDay()" instead returns 0 for monday, 1 for tuesday, etc
 
 	var text = `${year}-${month}-${day}`;
 	return text;
@@ -469,7 +503,9 @@ function get_date_today()
 // Shifts a date by a certain number of days (positive or negative)
 function change_date(old_date, difference)
 {
-    var newdate = new Date(old_date.getFullYear(),old_date.getMonth(),old_date.getDate()+difference);
+	difference = difference+1;
+
+    var newdate = new Date(old_date.getFullYear(),old_date.getMonth(),old_date.getUTCDate()+difference);
     return newdate;
 }
 
@@ -478,9 +514,29 @@ function change_currentdate(difference)
 {
 	// panel.Clear(); // Clear textbox
 	currentdate = change_date(currentdate,difference);
+	// console.log("Current date: "+currentdate);
+
+	update_page_ui();
+}
+
+
+function change_date_to_datecode(datecode)
+{
+	var new_date = new Date();
+	new_date.setFullYear(datecode.slice(0,4));
+	new_date.setMonth(datecode.slice(4,6)-1);
+	new_date.setUTCDate(datecode.slice(6,8));
+	currentdate = new_date;
+	
+	update_page_ui();
+}
+
+
+function update_page_ui()
+{
 	panel.LoadFromStorage(); // Load textbox content from localStorage
 	update_next_prev_buttons(); // Change prev/next day button labels
-	// console.log("Current date: "+currentdate);
+	make_calendar(currentdate,7);
 }
 
 
@@ -489,7 +545,7 @@ function get_date_string(date)
 {
 	var year = date.getFullYear();
 	var month = date.getMonth()+1;
-	var day = date.getDate();
+	var day = date.getUTCDate();
 
 	if(month<10)
 		month = "0"+month;
@@ -498,6 +554,46 @@ function get_date_string(date)
 
 	return year+month+day;
 }
+
+
+function make_calendar(date,days)
+{
+	var past_monday = get_monday(date,false);
+	var calendar = document.querySelector("#calendar");
+
+	// Clear calendar
+	while (calendar.firstChild)
+		calendar.firstChild.remove();
+
+	var storage_obj = JSON.parse(localStorage.getItem(lsname));
+	
+	var day = past_monday;
+	for(var i=0; i<days; i++)
+	{
+		var new_div = document.createElement("div");
+		var text = day.getUTCDate();
+		var new_content = document.createTextNode(text);
+		new_div.appendChild(new_content);
+
+		// Add classes
+		new_div.classList.add("day");
+		var datecode = get_date_string(day);
+		new_div.setAttribute("data-datecode",datecode);
+		if(datecode === get_date_string(currentdate))
+			new_div.classList.add("current");
+		else if(datecode in storage_obj)
+			new_div.classList.add("datecode");
+
+		// new_div.addEventListener("click", () => change_date_to_datecode(datecode) );
+
+		calendar.appendChild(new_div);
+		day = change_date(day,1); // Get the next day
+	}
+
+	// Make the days on the calendar trigger a date change
+	set_clickable_calendar();
+}
+
 
 function update_panel()
 {
@@ -543,9 +639,9 @@ function update_next_prev_buttons()
 	var prev_date = change_date(currentdate,-1);
 	var next_date = change_date(currentdate,+1);
 
-	var label_prev  = "< "+get_month_name(prev_date.getMonth()+1)+" "+(prev_date.getDate());
-	var label_today =      get_month_name(currentdate.getMonth()+1)+" "+(currentdate.getDate());
-	var label_next  =      get_month_name(next_date.getMonth()+1)+" "+(next_date.getDate())+" >";
+	var label_prev  = "< "+get_month_name(prev_date.getMonth()+1)+" "+(prev_date.getUTCDate());
+	var label_today =      get_month_name(currentdate.getMonth()+1)+" "+(currentdate.getUTCDate());
+	var label_next  =      get_month_name(next_date.getMonth()+1)+" "+(next_date.getUTCDate())+" >";
 
 	document.querySelector("#button-prev-day").innerText = label_prev;
 	document.querySelector("#current-day").innerText = label_today;
@@ -553,22 +649,23 @@ function update_next_prev_buttons()
 }
 
 
+function set_clickable_calendar()
+{
+	document.querySelectorAll(".day").forEach(element => {
+		// element.addEventListener("click", () => console.log(element.dataset["datecode"]) );
+		element.addEventListener("click", () => change_date_to_datecode(element.dataset["datecode"]) );
+	});
+}
+
+
 // Gets the English name of a month number: 10 -> "October"
 function get_month_name(month_number)
 {
 	var month_names = {
-		1: "Jan",
-		2: "Feb",
-		3: "Mar",
-		4: "Apr",
-		5: "May",
-		6: "June",
-		7: "July",
-		8: "Aug",
-		9: "Sep",
-		10: "Oct",
-		11: "Nov",
-		12: "Dec"
+		1: "Jan",	2: "Feb",	3: "Mar",
+		4: "Apr",	5: "May",	6: "June",
+		7: "July",	8: "Aug",	9: "Sep",
+		10: "Oct",	11: "Nov",	12: "Dec"
 	}
 	if(month_number in month_names)
 		return month_names[month_number];
@@ -617,3 +714,6 @@ window.setTimeout(() => panel.textarea.addEventListener("keyup", update_panel), 
 // Set up the prev/next day buttons
 document.querySelector("#button-prev-day").addEventListener("click", function(){ change_currentdate(-1) });
 document.querySelector("#button-next-day").addEventListener("click", function(){ change_currentdate(+1) });
+
+
+set_clickable_calendar();
