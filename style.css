@@ -172,24 +172,24 @@ textarea, #labels
 }
 
 #prev-next * {
-	/* margin: 0 1.5rem; */
 	font-size: 1.2rem;
 	min-width: 6rem;
 	text-align: center;
 }
 
-#prev-next #button-prev-day, #button-next-day {
+.navbutton {
+	font-size: 1.2rem;
 	cursor: pointer;
 	color: #186fd3;
 }
 
-#prev-next #button-prev-day:hover, #button-next-day:hover {
+.navbutton:hover {
 	cursor: pointer;
 	/* text-decoration: underline; */
 	color: #1c7be7;
 }
 
-#prev-next #button-prev-day:active, #button-next-day:active {
+.navbutton:active {
 	cursor: pointer;
 	color: #0a325f;
 }
@@ -199,23 +199,12 @@ textarea, #labels
 	/* font-size: 1.5rem; */
 }
 
-#controls
-{
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-}
-
-#controls input
-{
-	margin: 15px;
-	font-size: 1rem;
-}
-
 #calendar-container {
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 100%;
+	margin-top: 2vh;
 }
 
 #calendar {
@@ -229,8 +218,7 @@ textarea, #labels
 	align-content: center;
 	align-items: center;
 	width: auto;
-	margin: auto;
-	margin-top: 1vh;
+	margin: 0 1.5rem;
 	cursor: pointer;
 }
 
@@ -262,6 +250,20 @@ textarea, #labels
 	font-weight: bold;
 	/* background: #4994eb; */
 	background: #f1c228;
+}
+
+#controls
+{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+#controls input
+{
+	margin: 15px;
+	font-size: 1rem;
 }
 
 #notescontainer

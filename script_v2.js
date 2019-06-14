@@ -486,26 +486,26 @@ function clear_textarea()
 		panel.Clear();
 }
 
-
+/*
 function get_date_today()
 {
 	var date = new Date();
 
-	var year = date.getFullYear();
-	var month = date.getMonth() + 1;
+	var year = date.getUTCFullYear();
+	var month = date.getUTCMonth() + 1;
 	var day = date.getUTCDate(); // "getDay()" instead returns 0 for monday, 1 for tuesday, etc
 
 	var text = `${year}-${month}-${day}`;
 	return text;
 }
-
+*/
 
 // Shifts a date by a certain number of days (positive or negative)
 function change_date(old_date, difference)
 {
 	difference = difference+1;
 
-    var newdate = new Date(old_date.getFullYear(),old_date.getMonth(),old_date.getUTCDate()+difference);
+    var newdate = new Date(old_date.getUTCFullYear(),old_date.getUTCMonth(),old_date.getUTCDate()+difference);
     return newdate;
 }
 
@@ -522,12 +522,7 @@ function change_currentdate(difference)
 
 function change_date_to_datecode(datecode)
 {
-	var new_date = new Date();
-	new_date.setFullYear(datecode.slice(0,4));
-	new_date.setMonth(datecode.slice(4,6)-1);
-	new_date.setUTCDate(datecode.slice(6,8));
-	currentdate = new_date;
-	
+	currentdate = datecode_to_date(datecode);
 	update_page_ui();
 }
 
@@ -537,14 +532,29 @@ function update_page_ui()
 	panel.LoadFromStorage(); // Load textbox content from localStorage
 	update_next_prev_buttons(); // Change prev/next day button labels
 	make_calendar(currentdate,7);
+
+	// console.log("********************");
+	// console.log("Current day", currentdate);
+	// console.log("Next monday", get_monday(currentdate,true));
+	// console.log("Past monday", get_monday(currentdate,false));
+}
+
+
+function datecode_to_date(datecode)
+{
+	var new_date = new Date();
+	new_date.setFullYear(datecode.slice(0,4));
+	new_date.setMonth(datecode.slice(4,6)-1);
+	new_date.setUTCDate(datecode.slice(6,8));
+	return new_date;
 }
 
 
 // Turns a date object into a string like "20190611"
 function get_date_string(date)
 {
-	var year = date.getFullYear();
-	var month = date.getMonth()+1;
+	var year = date.getUTCFullYear();
+	var month = date.getUTCMonth()+1;
 	var day = date.getUTCDate();
 
 	if(month<10)
@@ -595,6 +605,18 @@ function make_calendar(date,days)
 }
 
 
+function shift_calendar(days)
+{
+	// Datecode on the first day of the calendar that is currently loaded
+	var monday_datecode = document.querySelectorAll("#calendar .day")[0].dataset["datecode"];
+
+	var new_monday = datecode_to_date(monday_datecode);
+	new_monday = change_date(new_monday,days);
+
+	make_calendar(new_monday,7);
+}
+
+
 function update_panel()
 {
 	panel.UpdatePanel(foodlist);
@@ -639,9 +661,9 @@ function update_next_prev_buttons()
 	var prev_date = change_date(currentdate,-1);
 	var next_date = change_date(currentdate,+1);
 
-	var label_prev  = "< "+get_month_name(prev_date.getMonth()+1)+" "+(prev_date.getUTCDate());
-	var label_today =      get_month_name(currentdate.getMonth()+1)+" "+(currentdate.getUTCDate());
-	var label_next  =      get_month_name(next_date.getMonth()+1)+" "+(next_date.getUTCDate())+" >";
+	var label_prev  = "< "+get_month_name(prev_date.getUTCMonth()+1)+" "+(prev_date.getUTCDate());
+	var label_today =      get_month_name(currentdate.getUTCMonth()+1)+" "+(currentdate.getUTCDate());
+	var label_next  =      get_month_name(next_date.getUTCMonth()+1)+" "+(next_date.getUTCDate())+" >";
 
 	document.querySelector("#button-prev-day").innerText = label_prev;
 	document.querySelector("#current-day").innerText = label_today;
@@ -687,9 +709,10 @@ var currentdate = new Date();
 var lsname = "kiwi"; // localStorage label for storing the saved days
 var flname = "foodlist"; // localStorage label for foodlist dictionary
 var offline = false;
-update_next_prev_buttons();
 create_localstorage();
 
+update_next_prev_buttons();
+make_calendar(currentdate,7);
 
 // Load the food dictionary
 var textarea = document.querySelector("textarea");
@@ -715,5 +738,7 @@ window.setTimeout(() => panel.textarea.addEventListener("keyup", update_panel), 
 document.querySelector("#button-prev-day").addEventListener("click", function(){ change_currentdate(-1) });
 document.querySelector("#button-next-day").addEventListener("click", function(){ change_currentdate(+1) });
 
+// Set up the prev/next week buttons to update the calendar only
+document.querySelector("#button-week-prev").addEventListener("click", function(){ shift_calendar(-7) });
+document.querySelector("#button-week-next").addEventListener("click", function(){ shift_calendar(+7) });
 
-set_clickable_calendar();
