@@ -179,14 +179,15 @@ textarea, #labels
 #prev-next {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-evenly;
-	margin: 1rem auto;
-	max-width: 450px;
+	justify-content: center;
+	/* margin: 1rem auto; */
+	/* max-width: 450px; */
 }
 
 #prev-next * {
 	font-size: 1.2rem;
 	min-width: 6rem;
+	margin: 0 1rem;
 	text-align: center;
 }
 
@@ -214,10 +215,11 @@ textarea, #labels
 
 #calendar-container {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	margin-top: 2vh;
+	margin-top: 1rem;
 }
 
 #calendar {
@@ -231,7 +233,7 @@ textarea, #labels
 	align-content: center;
 	align-items: center;
 	width: auto;
-	margin: 0 1.5rem;
+	margin: 1rem 1.5rem;
 	cursor: pointer;
 }
 
@@ -319,4 +321,18 @@ textarea, #labels
 	color: black;
 	/*border-radius: 2px;*/
 	border: 1px solid #aaa;
+}
+
+@media screen and (max-width: 23rem) {
+	#day-header {
+		grid-template-columns: 1fr;
+		/* grid-template-rows: repeat(2, fr); */
+		grid-gap: 0;
+	}
+	#day-label, #totalcal {
+		text-align: center;
+	}
+	#prev-next {
+		margin-bottom: 1rem;
+	}
 }
