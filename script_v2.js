@@ -279,7 +279,7 @@ function parse_line(line)
 			}
 			else
 			{
-				var calories = foodlist[foodkey] / 100 * amount;
+				var calories = foodlist[foodkey][0] / 100 * amount;
 				label_number = calories;
 			}
 		}

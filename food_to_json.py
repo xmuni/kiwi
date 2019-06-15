@@ -8,11 +8,13 @@ with open('food.txt', 'r') as textfile:
 	for line in textfile.read().splitlines():
 		if ',' in line:
 			items = line.split(',')
-			if len(items) < 2:
+			if len(items) < 3:
 				print('Error. Not enough items in line: '+line)
 			else:
-				for item in items[1:]:
-					json_output += '\t"{}": {},\n'.format(item.strip(), items[0].strip())
+				# For each name of this food, write one json key with [calories,unit_weight] as value
+				for item in items[2:]:
+					# json_output += '\t"{}": {},\n'.format(item.strip(), items[0].strip())
+					json_output += '\t"{}": [{},{}],\n'.format(item.strip(), items[0].strip(), items[1].strip())
 					json_entry_counter += 1
 
 json_output += "}"
