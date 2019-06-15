@@ -666,7 +666,8 @@ function update_next_prev_buttons()
 	var label_next  =      get_month_name(next_date.getUTCMonth()+1)+" "+(next_date.getUTCDate())+" >";
 
 	document.querySelector("#button-prev-day").innerText = label_prev;
-	document.querySelector("#current-day").innerText = label_today;
+	document.querySelector("#day-label").innerText = label_today;
+	// document.querySelector("#current-day").innerText = label_today;
 	document.querySelector("#button-next-day").innerText = label_next;
 }
 
@@ -727,7 +728,7 @@ if(!offline)
 
 
 // Set up the panel info and load from storage
-var panel = new Panel("textarea", "#labels", "#totalcal h2");
+var panel = new Panel("textarea", "#labels", "#totalcal");
 
 window.setTimeout(function() { panel.LoadFromStorage(); }, 100);
 window.setTimeout(function() { update_panel() }, 200);
