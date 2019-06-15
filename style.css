@@ -295,6 +295,7 @@ textarea, #labels
 	margin: 10px;
 	color: #777;
 	padding: 10px;
+	max-width: 600px;
 	/*background: #e0e0e0;*/
 	/*border: 2px solid #ccc;*/
 }
@@ -307,7 +308,7 @@ textarea, #labels
 #notes ul li, #notes p
 {
 	margin: 1rem auto;
-	line-height: 1.3rem;
+	line-height: 1.6rem;
 }
 
 #notes .example

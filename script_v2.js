@@ -265,6 +265,93 @@ function parse_line(line)
 		// no calories are indicated, so look up the food name
 		else
 		{
+			var amount = parse_amount(words[0].replace("x",""));
+			var firstword = words[0];
+
+			words.splice(0,1);
+			var foodname = words.join(' ');
+			var foodkey = get_food_match(foodname, foodlist);
+
+			// if no matching food was found, show a "?"
+			if(foodkey=="")
+			{
+				// console.log("No match found: "+foodname);
+				label_string = "?";
+			}
+			else
+			{
+				var calories = 0;
+				// console.log(words);
+				
+				if(firstword.endsWith("x"))
+					calories = foodlist[foodkey][0] / 100 * amount*foodlist[foodkey][1];
+				else
+					calories = foodlist[foodkey][0] / 100 * amount;
+
+				label_number = calories;
+			}
+		}
+	}
+
+	var array = [line, label_number, label_string];
+	return array;
+}
+
+/*
+// [original line, calories, alternative label]
+function parse_line(line)
+{
+
+	var label_number = 0;
+	var label_string = "";
+	
+	var words = line.trim().split(' ');
+	// console.log(words);
+
+	// empty line, or first word without digits, or line without digits
+	if(words.length < 1 || !has_digits(words[0]) || !has_digits(line))
+		label_string = ("_");
+
+	var terms = [];
+	for(var i=0; i<words.length; i++)
+	{
+		if(has
+	}
+
+	// manual calorie entry
+	else if(words.length===1 && has_digits(words[0]) || words[0].endsWith("cal")) // 100kcal, 100cal, or 100c
+	{
+		var firstword = remove_nondigits(words[0]);
+		var calories = parseFloat(firstword);
+
+		// if the calories were negative (-300kcal)
+		if(words[0].includes('-'))
+			calories = -calories;
+
+		label_number = calories;
+	}
+
+	// (at least two words are guaranteed)
+	// weighted food (possibly with calories at the end)
+	else
+	{
+		// console.log(words[0]+" -> "+amount);
+
+		// if the calories are specified, use them instead of looking up the food name
+		var lastword = words[words.length-1];
+		if(has_digits(lastword)
+		&&(lastword.endsWith("cal") || lastword.endsWith("c")))
+		{
+			var amount = parse_amount(words[0]);
+			var cal100 = parseFloat(remove_nondigits(lastword));
+			var calories = cal100 / 100 * amount;
+
+			label_number = calories;
+		}
+
+		// no calories are indicated, so look up the food name
+		else
+		{
 			var amount = parse_amount(words[0]);
 
 			words.splice(0,1);
@@ -288,8 +375,7 @@ function parse_line(line)
 	var array = [line, label_number, label_string];
 	return array;
 }
-
-
+*/
 
 function remove_nondigits(string)
 {
