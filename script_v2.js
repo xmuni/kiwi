@@ -56,6 +56,28 @@ class Panel
 			temptotal += this.storage[i][1];
 		this.total = temptotal;
 		this.totaldiv.innerText = Math.round(this.total).toString()+" Cal";
+
+		// Update the leftover calories if necessary
+		var maxcal = get_max_cal();
+		var div = document.querySelector("#cal-left");
+
+		if(maxcal === 0)
+			div.style.display = "none";
+		else
+		{
+			div.style.display = "block";
+			if(maxcal > this.total)
+			{
+				var cal_left = maxcal - this.total;
+				div.innerHTML = Math.round(cal_left).toString()+" left";
+			}
+			else
+			{
+				var cal_extra = this.total - maxcal;
+				div.innerHTML = Math.round(cal_extra).toString()+" surplus";
+			}
+
+		}
 	}
 
 	WriteLabels()
@@ -135,22 +157,6 @@ class Panel
 
 	ExportTxt()
 	{
-		// var date = get_date_today();
-		// var totalstring = Math.round(this.total).toString();
-
-		// var text = date+" ("+totalstring+" kcal)\r\n";
-
-		// for(var i=0; i<this.storage.length; i++)
-		// {
-		// 	var labelnumber = this.storage[i][1];
-		// 	var labelstring = this.storage[i][2];
-
-		// 	if(labelstring === "")
-		// 		text += "\r\n"+Math.round(labelnumber).toString()+"\t"+this.storage[i][0];
-		// 	else
-		// 		text += "\r\n"+labelstring+"\t"+this.storage[i][0];
-		// }
-
 		// console.log(text);
 		var info = day_to_string(get_date_string(currentdate));
 		var filename = `Kiwi ${currentdate.getFullYear()}-${currentdate.getMonth()+1}-${currentdate.getUTCDate()}`;
@@ -171,20 +177,6 @@ class Panel
 
 		this.WriteLabels();
 		this.UpdateTotal();
-		// var datecode = get_date_string(currentdate);
-		// localStorage.removeItem(datecode);
-
-		/*
-		var storage_text = localStorage.getItem(lsname);
-		if(storage_text != null)
-		{
-			var storage_obj = JSON.parse(storage_text);
-			var datecode = get_date_string(currentdate);
-			delete storage_obj[datecode];
-			localStorage.setItem(lsname, JSON.stringify(storage_obj));
-		}
-		*/
-
 		console.log("Panel cleared");
 	}
 
@@ -827,6 +819,22 @@ function set_clickable_calendar()
 }
 
 
+function get_max_cal()
+{
+	var value = document.querySelector(input_maxcal).value;
+	
+	if(value === "")
+		return 0;
+	
+	var number = parseFloat(value);
+
+	if(isNaN(number))
+		return 0;
+	
+	return number;
+}
+
+
 // Gets the English name of a month number: 10 -> "October"
 function get_month_name(month_number)
 {
@@ -855,6 +863,7 @@ function get_month_name(month_number)
 var currentdate = new Date();
 var lsname = "kiwi"; // localStorage label for storing the saved days
 var flname = "foodlist"; // localStorage label for foodlist dictionary
+var input_maxcal = "#input-maxcal";
 var offline = false;
 create_localstorage();
 
@@ -888,4 +897,7 @@ document.querySelector("#button-next-day").addEventListener("click", function(){
 // Set up the prev/next week buttons to update the calendar only
 document.querySelector("#button-week-prev").addEventListener("click", function(){ shift_calendar(-7) });
 document.querySelector("#button-week-next").addEventListener("click", function(){ shift_calendar(+7) });
+
+// Set up the max cal input to update the header
+document.querySelector(input_maxcal).addEventListener("keyup", function(){ panel.UpdateTotal() });
 

@@ -27,6 +27,8 @@
 			<div id="day-header">
 				<div id="day-label">June 15</div>
 				<div id="totalcal">0 Cal</div>
+				<div></div>
+				<div id="cal-left">500 left</div>
 			</div>
 			<div id="prev-next">
 				<div class="navbutton" id="button-prev-day">< June 9</div>
@@ -66,7 +68,7 @@
 
 	<div id="notescontainer">
 		<div id="notes">
-			<div id=tips-heading>Tips</div>
+			<div class=note-heading>Tips</div>
 			<ul>
 				<li>Each food entry should be formatted like this: <div class="example">30g potatoes</div></li>
 				<li>You can enter calories manually. Try typing <div class="example">400kcal</div></li>
@@ -75,7 +77,13 @@
 					Try this: <div class="example">15g chocolate 200kcal</div></li>
 			</ul>
 		</div>
+
+		<div id="settings">
+			<div class=note-heading>Settings</div>
+			<input id="input-maxcal" type="text" placeholder="1200" width="15"> Max daily calories
+		</div>
 	</div>
+
 
 	<script type="text/javascript" src="script_v2.js"></script>
 </body>
