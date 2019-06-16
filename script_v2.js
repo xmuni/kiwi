@@ -54,8 +54,8 @@ class Panel
 		var temptotal = 0;
 		for(var i=0; i<this.storage.length; i++)
 			temptotal += this.storage[i][1];
-		this.total = temptotal;
-		this.totaldiv.innerText = Math.round(this.total).toString()+" Cal";
+		this.total = Math.round(temptotal);
+		this.totaldiv.innerText = this.total.toString()+" Cal";
 
 		// Update the leftover calories if necessary
 		var maxcal = get_max_cal();
@@ -78,6 +78,18 @@ class Panel
 			}
 
 		}
+
+		// Update the average calories at the bottom of the page
+		var div = document.querySelector("#avg-cal");
+		var value = document.querySelector("#settings-avg input").value;
+		if(value.length > 0)
+		{
+			var days = parseFloat(value);
+			var average = Math.round(get_average_totalcal(days));
+			div.innerHTML = average.toString()+" Cal";
+		}
+		else
+			div.innerHTML = "____ Cal";
 	}
 
 	WriteLabels()
@@ -145,7 +157,7 @@ class Panel
 		var storage_obj = JSON.parse(storage_text);
 	
 		var datecode = get_date_string(currentdate);
-		if(datecode in storage_obj)
+		if(datecode in storage_obj && storage_obj[datecode].hasOwnProperty("text"))
 		{
 			// console.log("Loading from storage");
 			textarea.value = storage_obj[datecode]["text"];
@@ -841,6 +853,30 @@ function get_max_cal()
 }
 
 
+function get_average_totalcal(days)
+{
+	var max_days = 30;
+	var totals = [];
+	var i = 0;
+
+	var date = new Date();
+	do {
+		var datecode = get_date_string(date);
+		var storage_obj = JSON.parse(localStorage.getItem(lsname));
+		if(datecode in storage_obj)
+			totals.push(storage_obj[datecode]["total"]);
+		
+		date = change_date(date,-1);
+		i += 1;
+	} while (totals.length < days && i < max_days);
+
+	var sum = 0;
+	totals.forEach((num) => sum+=num);
+
+	return sum/totals.length;
+}
+
+
 // Gets the English name of a month number: 10 -> "October"
 function get_month_name(month_number)
 {
@@ -906,4 +942,7 @@ document.querySelector("#button-week-next").addEventListener("click", function()
 
 // Set up the max cal input to update the header
 document.querySelector(input_maxcal).addEventListener("keyup", function(){ panel.UpdateTotal() });
+
+// Set up the avg cal input to update the average
+document.querySelector("#settings-avg input").addEventListener("keyup", function(){ panel.UpdateTotal() });
 

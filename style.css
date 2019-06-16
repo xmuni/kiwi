@@ -153,6 +153,8 @@ textarea, #labels
 
 	font-size: 1.3rem;
 	line-height: 1.5rem;
+
+	border-radius: 1px;
 }
 
 #labels
@@ -306,6 +308,22 @@ textarea, #labels
 #settings {
 	margin: auto;
 	margin-bottom: 5vh;
+}
+
+#settings * {
+	margin: auto;
+	text-align: center;
+	margin: 0.5rem;
+}
+
+#settings #settings-avg input {
+	max-width: 2rem;
+}
+
+#settings #settings-avg #avg-cal {
+	font-weight: bold;
+	color: #333;
+	font-size: 1.3rem;
 }
 
 #notes
