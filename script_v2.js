@@ -119,16 +119,22 @@ class Panel
 			console.log("Panel updated from foodlist");
 
 			// Save all entries for the current day into storage
-			var storage_obj = JSON.parse(localStorage.getItem(lsname));
-			var datecode = get_date_string(currentdate);
+			var storage_obj = {};
+			if(localStorage.hasOwnProperty(lsname))
+				storage_obj = JSON.parse(localStorage.getItem(lsname));
 
 			// Update the localStorage with key/value pair
 			// using the current date as key and the textbox content as value
 			// Create the localStorage if necessary
+			var datecode = get_date_string(currentdate);
 			if(textarea.value === "")
 				delete storage_obj[datecode];
 			else
-				storage_obj[datecode] = textarea.value;
+			{
+				storage_obj[datecode] = {};
+				storage_obj[datecode]["total"] = this.total;
+				storage_obj[datecode]["text"] = textarea.value;
+			}
 			localStorage.setItem(lsname, JSON.stringify(storage_obj));
 		}
 	}
@@ -142,7 +148,7 @@ class Panel
 		if(datecode in storage_obj)
 		{
 			// console.log("Loading from storage");
-			textarea.value = storage_obj[datecode];
+			textarea.value = storage_obj[datecode]["text"];
 		}
 		else
 		{
@@ -490,7 +496,7 @@ function day_to_string(datecode)
 	{
 		var parsed_lines = "";
 		var totalcal = 0;
-		var lines = storage_obj[datecode].split('\n');
+		var lines = storage_obj[datecode]["text"].split('\n');
 
 		// Parse each line for the current day
 		for(var i=0; i<lines.length; i++)
@@ -779,7 +785,7 @@ function create_localstorage()
 	}
 }
 
-
+/*
 function update_localstorage(datecode,text)
 {
 	var storage_text = localStorage.getItem(lsname);
@@ -788,11 +794,11 @@ function update_localstorage(datecode,text)
 	if(text === "")
 		delete storage_obj[datecode];
 	else
-		storage_obj[datecode] = text;
+		storage_obj[datecode]["text"] = text;
 
 	localStorage.setItem(lsname, JSON.stringify(storage_obj));
 }
-
+*/
 
 function update_next_prev_buttons()
 {

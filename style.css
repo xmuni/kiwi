@@ -323,10 +323,6 @@ textarea, #labels
 	margin: 1rem;
 }
 
-#notes ul, #settings {
-	padding-left: 1rem;
-}
-
 #notes ul li, #notes p
 {
 	margin: 1rem auto;
@@ -356,6 +352,9 @@ textarea, #labels
 		grid-gap: 0;
 	}
 	#day-label, #totalcal {
+		text-align: center;
+	}
+	#cal-left {
 		text-align: center;
 	}
 	#prev-next {
