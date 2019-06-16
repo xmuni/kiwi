@@ -329,7 +329,7 @@ function parse_line(line)
 				type = "x";
 			else if(words[i].endsWith("c")
 			|| words[i].endsWith("cal")
-			|| words[i].endsWith("kcal"))
+			|| words[i].endsWith("ca") )
 				type = "cal";
 
 			terms.push([remove_nondigits(words[i]), type]);
@@ -367,7 +367,7 @@ function parse_line(line)
 		if(sequence.startsWith("number") || sequence.startsWith("cal"))
 		{
 			// console.log("Manual calorie entry");
-			label_cal = parseFloat(merged_terms[0][0]);
+			label_cal = parseFloat(remove_nondigits(merged_terms[0][0]));
 		}
 		else
 		{
