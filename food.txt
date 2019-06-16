@@ -1,50 +1,53 @@
 // col 1: calories per 100g
 // col 2: weight per unit (e.g. 1x olive)
 // col 3: food names
-145,	100,	olive
-35,		100,	broccoli
-252,	100,	bread, pane
-130,	100,	rice, riso
-18,		100,	tomato, tomatoe, pomodoro
-53,		100,	mandarin
-244,	100,	salmon
-71,		100,	artichoke, carciof
-153,	100,	spaetzle
-183,	100,	tofu
-598,	100,	chocolate, cioccolat
-87,		100,	potato, potatoe, patat
-23,		100,	spinac, spinach, spinaci
-116,	100,	lentil, lenticchie
-164,	100,	chickpea, ceci
-149,	100,	pasta
-149,	100,	spaghetti
-89,		100,	banana
-52,		100,	apple, mela, mele
-21,		100,	sundried tomato, pomodori soleggiati, pomodori secchi
-124,	100,	bean, fagioli
-615,	100,	mixed nut, noci
-241,	100,	apricot, albicocche, albicocca
-579,	100,	almond, mandorle
-35,		100,	string bean, fagiolini
-57,		100,	pear, pere, pera
-78,		100,	pea, piselli
-112,	100,	couscous, cous cous
-54,		100,	soymilk, latte di soia
-227,	100,	pizza
-155,	100,	egg, uova, uovo
-198,	100,	tuna, tonno
-156,	100,	mackerel, sgombr
-133,	100,	gnocchi
-410,	100,	pandoro
-47,		100,	orange, arancia, arance
-105,	100,	cod, merluzz, pesce
-23,		100,	cauliflower, cavolfiore, cavolfiori, cavolo, cavoli
-444,	100,	ciambella
-400,	100,	cheese, formaggio
-61,		100,	milk, latte
-85,		100,	wine, vino
-43,		100,	beer, birra
-271,	100,	carne
-145,	100,	polenta
-46,		100,	cranberry juice
-61,		100,	kiwi
+145,	0,	olive
+35,		0,	broccoli
+252,	0,	bread, pane
+130,	0,	rice, riso
+18,		0,	tomato, tomatoe, pomodoro
+53,		0,	mandarin
+244,	0,	salmon
+71,		0,	artichoke, carciofo, carciofi
+153,	0,	spaetzle
+183,	27,	tofu
+598,	0,	chocolate, cioccolata, cioccolato
+87,		0,	potato, potatoe, patata, patate
+23,		0,	spinac, spinach, spinaci
+116,	0,	lentil, lenticchie
+164,	0,	chickpea, ceci
+149,	0,	pasta
+149,	0,	spaghetti
+89,		0,	banana, banane
+52,		0,	apple, mela, mele
+21,		11,	sundried tomato, pomodori soleggiati, pomodori secchi
+124,	0,	bean, fagioli
+615,	0,	mixed nut, noci
+241,	0,	apricot, albicocche, albicocca
+579,	0,	almond, mandorle
+35,		0,	string bean, fagiolini
+57,		0,	pear, pere, pera
+78,		0,	pea, piselli
+112,	0,	couscous, cous cous
+54,		0,	soymilk, latte di soia
+227,	125,	pizza
+155,	0,	egg, uova, uovo
+198,	0,	tuna, tonno
+156,	0,	mackerel, sgombro, sgombri
+133,	0,	gnocchi
+410,	0,	pandoro
+47,		0,	orange, arancia, arance
+105,	0,	cod, merluzz, pesce
+23,		0,	cauliflower, cavolfiore, cavolfiori, cavolo, cavoli
+444,	0,	ciambella
+400,	0,	cheese, formaggio
+61,		0,	milk, latte
+85,		0,	wine, vino
+43,		0,	beer, birra
+271,	0,	carne
+145,	0,	polenta
+46,		0,	cranberry juice
+61,		0,	kiwi
+567,	0,	peanut, arachidi
+50,		0,	cherry, cherries, ciliegie, ciliegia
+30,		0,	watermelon, anguria, angurie

@@ -212,7 +212,7 @@ class Panel
 // [0] = original line text
 // [1] = Calories
 // [2] = string as replacement for calories ("?" or "_")
-function parse_line(line)
+function parse_line_old(line)
 {
 	// console.log(typeof food_dict);
 	// if(typeof food_dict === "undefined")
@@ -297,85 +297,132 @@ function parse_line(line)
 	return array;
 }
 
-/*
+
 // [original line, calories, alternative label]
 function parse_line(line)
 {
 
-	var label_number = 0;
-	var label_string = "";
+	line = line.trim()+" ";
+	var units = ["g","kg","c","cal","kcal","x"];
+	units.forEach((unit) =>
+		line = line.replace(" "+unit+" ", unit+" ")
+		// line.replace(" "+unit+"\n", unit+"\n");
+	);
 	
 	var words = line.trim().split(' ');
 	// console.log(words);
 
-	// empty line, or first word without digits, or line without digits
-	if(words.length < 1 || !has_digits(words[0]) || !has_digits(line))
-		label_string = ("_");
-
 	var terms = [];
 	for(var i=0; i<words.length; i++)
 	{
-		if(has
-	}
-
-	// manual calorie entry
-	else if(words.length===1 && has_digits(words[0]) || words[0].endsWith("cal")) // 100kcal, 100cal, or 100c
-	{
-		var firstword = remove_nondigits(words[0]);
-		var calories = parseFloat(firstword);
-
-		// if the calories were negative (-300kcal)
-		if(words[0].includes('-'))
-			calories = -calories;
-
-		label_number = calories;
-	}
-
-	// (at least two words are guaranteed)
-	// weighted food (possibly with calories at the end)
-	else
-	{
-		// console.log(words[0]+" -> "+amount);
-
-		// if the calories are specified, use them instead of looking up the food name
-		var lastword = words[words.length-1];
-		if(has_digits(lastword)
-		&&(lastword.endsWith("cal") || lastword.endsWith("c")))
+		if(has_digits(words[i]))
 		{
-			var amount = parse_amount(words[0]);
-			var cal100 = parseFloat(remove_nondigits(lastword));
-			var calories = cal100 / 100 * amount;
+			var type = "unknown";
+			
+			if(has_digits(words[i].slice(-1)))
+				type = "number";
+			else if(words[i].endsWith("g"))
+				type = "g";
+			else if(words[i].endsWith("kg"))
+				type = "kg";
+			else if(words[i].endsWith("x"))
+				type = "x";
+			else if(words[i].endsWith("c")
+			|| words[i].endsWith("cal")
+			|| words[i].endsWith("kcal"))
+				type = "cal";
 
-			label_number = calories;
+			terms.push([remove_nondigits(words[i]), type]);
 		}
-
-		// no calories are indicated, so look up the food name
 		else
 		{
-			var amount = parse_amount(words[0]);
-
-			words.splice(0,1);
-			var foodname = words.join(' ');
-			var foodkey = get_food_match(foodname, foodlist);
-
-			// if no matching food was found, show a "?"
-			if(foodkey=="")
-			{
-				// console.log("No match found: "+foodname);
-				label_string = "?";
-			}
-			else
-			{
-				var calories = foodlist[foodkey][0] / 100 * amount;
-				label_number = calories;
-			}
+			var type = "word";
+			terms.push([words[i], type]);
 		}
 	}
 
-	var array = [line, label_number, label_string];
-	return array;
+	// Merge words together in the array
+	var merged_terms = [];
+	for(var i=0; i<terms.length; i++)
+	{
+		if(i>0 && terms[i][1] === "word" && merged_terms.slice(-1)[0][1] === "word")
+			merged_terms.slice(-1)[0][0] = merged_terms.slice(-1)[0][0]+" "+terms[i][0];
+		else
+			merged_terms.push(terms[i]);
+	}
+
+	// console.log(merged_terms);
+
+	var sequence = "";
+	merged_terms.forEach( (term) => sequence = sequence+" "+term[1] );
+	sequence = sequence.trim();
+	// console.log("Sequence:");
+	// console.log(sequence);
+
+	var label_cal = 0;
+	var label_str = "";
+
+	if(merged_terms.length <= 1)
+	{
+		if(sequence.startsWith("number") || sequence.startsWith("cal"))
+		{
+			// console.log("Manual calorie entry");
+			label_cal = parseFloat(merged_terms[0][0]);
+		}
+		else
+		{
+			// console.log("Comment/empty line");
+			label_cal = 0;
+			label_str = "_";
+		}
+	}
+	else if(sequence.startsWith("x word"))
+	{
+		// console.log("Unit entry");
+		var amount = merged_terms[0][0];
+		var foodkey = get_food_match(merged_terms[1][0], foodlist);
+		label_cal = foodlist[foodkey][0] / 100 * amount*foodlist[foodkey][1];
+	}
+	else if( ["g","kg","number"].includes(merged_terms[0][1])
+	&& merged_terms[1][1] === "word")
+	{
+		var amount = merged_terms[0][1]==="kg" ? merged_terms[0][0]*1000 : merged_terms[0][0];
+
+		if( merged_terms.length>2 && ["number","cal"].includes(merged_terms[2][1]) )
+		{
+			// console.log("Manual weighted entry with 100g cal");
+			var cal_100g = merged_terms[2][0];
+			label_cal = cal_100g / 100 * amount;
+		}
+		else
+		{
+			// console.log("Normal weighted entry");
+			var amount = merged_terms[0][0];
+			var foodkey = get_food_match(merged_terms[1][0], foodlist);
+			if(foodkey==="")
+				label_str = "?";
+			else
+				label_cal = foodlist[foodkey][0] / 100 * amount;
+		}
+	}
+	else if(sequence.startsWith("cal word"))
+	{
+		// console.log("Manual calorie entry");
+		label_cal = merged_terms[0][0];
+	}
+	else
+	{
+		// console.log("Something else");
+		label_str = "?";
+	}
+
+
+	if(label_str==="")
+		label_str = String(Math.round(label_cal));
+
+	return [line, label_cal, label_str];
 }
-*/
+
 
 function remove_nondigits(string)
 {
