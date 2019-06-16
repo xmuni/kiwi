@@ -303,6 +303,11 @@ function parse_line(line)
 {
 
 	line = line.trim()+" ";
+
+	// Comment
+	if(line[0] === "/" || line[0] === "#")
+		return [line,0,"_"];
+
 	var units = ["g","kg","c","cal","kcal","x"];
 	units.forEach((unit) =>
 		line = line.replace(" "+unit+" ", unit+" ")
@@ -321,12 +326,12 @@ function parse_line(line)
 			
 			if(has_digits(words[i].slice(-1)))
 				type = "number";
-			else if(words[i].endsWith("g"))
-				type = "g";
-			else if(words[i].endsWith("kg"))
-				type = "kg";
 			else if(words[i].endsWith("x"))
 				type = "x";
+			else if(words[i].endsWith("kg"))
+				type = "kg";
+			else if(words[i].endsWith("g"))
+				type = "g";
 			else if(words[i].endsWith("c")
 			|| words[i].endsWith("cal")
 			|| words[i].endsWith("ca") )
@@ -381,12 +386,21 @@ function parse_line(line)
 		// console.log("Unit entry");
 		var amount = merged_terms[0][0];
 		var foodkey = get_food_match(merged_terms[1][0], foodlist);
-		label_cal = foodlist[foodkey][0] / 100 * amount*foodlist[foodkey][1];
+		if(foodkey==="")
+			label_str = "?";
+		else
+			label_cal = foodlist[foodkey][0] / 100 * amount*foodlist[foodkey][1];
 	}
 	else if( ["g","kg","number"].includes(merged_terms[0][1])
 	&& merged_terms[1][1] === "word")
 	{
-		var amount = merged_terms[0][1]==="kg" ? merged_terms[0][0]*1000 : merged_terms[0][0];
+		var amount = parseFloat(merged_terms[0][0]);
+		if(merged_terms[0][1]==="kg")
+			amount *= 1000;
+		// else if(merged_terms[0][1]==="lb")
+		// 	amount *= 453.6;
+		// else if(merged_terms[0][1]==="oz")
+		// 	amount *= 28.35;
 
 		if( merged_terms.length>2 && ["number","cal"].includes(merged_terms[2][1]) )
 		{
@@ -397,7 +411,6 @@ function parse_line(line)
 		else
 		{
 			// console.log("Normal weighted entry");
-			var amount = merged_terms[0][0];
 			var foodkey = get_food_match(merged_terms[1][0], foodlist);
 			if(foodkey==="")
 				label_str = "?";
@@ -420,7 +433,7 @@ function parse_line(line)
 	if(label_str==="")
 		label_str = String(Math.round(label_cal));
 
-	return [line, label_cal, label_str];
+	return [line, parseFloat(label_cal), label_str];
 }
 
 
