@@ -1,5 +1,4 @@
-body
-{
+body {
 	font-family: "arial";
 	font-size: 1rem;
 	margin: 0;
@@ -7,14 +6,12 @@ body
 	background: #e0e0e0;
 }
 
-a
-{
+a {
 	text-decoration: none;
 	color: black;
 }
 
-textarea
-{
+textarea {
 	border-radius: 0;
 	border: 0;
 	margin: 0;
@@ -29,15 +26,13 @@ textarea
 	line-height: 1.5rem;
 }
 
-textarea, #labels
-{
+textarea, #labels {
 	background-image: url("img/textbg.png");
 	image-rendering: pixelated;
 	background-size: 100% 3rem;
 }
 
-#header
-{
+#header {
 	/* min-height: 13vh; */
 	/* border-top: 1px solid #60802f; */
 	/* background: #61812e; */
@@ -55,16 +50,14 @@ textarea, #labels
 	width: auto;
 }
 
-#headercontent
-{
+#headercontent {
 	display: flex;
 	flex-direction: row;
 	margin: auto;
 	height: 3rem;
 }
 
-#header img
-{
+#header img {
 	/*max-height: 5vh;*/
 	height: 120%;
 	margin: auto;
@@ -72,22 +65,19 @@ textarea, #labels
 	opacity: 0.9;
 }
 
-#headertext
-{
+#headertext {
 	color: black;
 	font-size: 3rem;
 	margin: auto;
 }
 
-#maincontainer
-{
+#maincontainer {
 	background: #eee;
 	border-bottom: 2px solid #ddd;
 	font-family: "inconsolata", "arial";
 }
 
-#boxcontainer
-{
+#boxcontainer {
 	max-width: 750px;
 	margin: auto;
 	padding-bottom: 25vh;
@@ -116,8 +106,7 @@ textarea, #labels
 	text-align: right;
 }
 
-#totalcal
-{
+#totalcal {
 	color: #186fd3;
 	font-weight: bold;
 	text-align: left;
@@ -140,8 +129,7 @@ textarea, #labels
 	color: #186fd3;
 }
 
-#labeltext
-{
+#labeltext {
 	margin: auto;
 	display: grid;
 	/* background: #61812e; */
@@ -157,8 +145,7 @@ textarea, #labels
 	border-radius: 1px;
 }
 
-#labels
-{
+#labels {
 	display: flex;
 	flex-direction: column;
 	text-align: right;
@@ -169,14 +156,12 @@ textarea, #labels
 	padding: 0 1rem;
 }
 
-.calories
-{
+.calories {
 	font-size: 1.5rem;
 	height: 2rem;
 }
 
-#textcontainer
-{
+#textcontainer {
 	margin: 2px;
 	margin-left: 1px;
 }
@@ -280,30 +265,33 @@ textarea, #labels
 #bottomcontainer {
 	display: flex;
 	flex-direction: column;
+	padding: 1rem;
 }
 
-#bottomcontainer input
-{
-	margin: 1rem;
-	margin-bottom: 2.5rem;
+#bottomcontainer input {
+	margin: 0.5rem 1rem;
 	font-size: 1rem;
 }
 
-#controls
-{
+#controls {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	margin: 1rem auto;
 }
 
 #controls-advanced {
-	margin: auto;
 	display: none;
 	flex-direction: column;
 	align-items: center;
 	border: 2px solid #a7c3e6;
 	border-radius: 3px;
+	margin: auto;
+}
+
+#controls-advanced * {
+	margin: 1rem;
 }
 
 #button-adv-import-export {
@@ -316,8 +304,7 @@ textarea, #labels
 	width: 14rem;
 }
 
-#notescontainer
-{
+#notescontainer {
 	display: flex;
 	flex-wrap: wrap;
 	/* align-content: flex-end; */
@@ -332,6 +319,7 @@ textarea, #labels
 
 #settings {
 	margin: auto;
+	margin-top: 2rem;
 	margin-bottom: 5vh;
 }
 
@@ -351,10 +339,9 @@ textarea, #labels
 	font-size: 1.3rem;
 }
 
-#notes
-{
-	margin: 10px;
-	padding: 10px;
+#notes {
+	/* margin: 10px; */
+	/* padding: 10px; */
 	max-width: 600px;
 	/*background: #e0e0e0;*/
 	/*border: 2px solid #ccc;*/
@@ -363,17 +350,16 @@ textarea, #labels
 .note-heading {
 	text-align: center;
 	font-weight: bold;
-	margin: 1rem;
+	margin: 1.5rem auto;
+	color: #333;
 }
 
-#notes ul li, #notes p
-{
+#notes ul li, #notes p {
 	margin: 1rem auto;
 	line-height: 1.6rem;
 }
 
-#notes .example
-{
+#notes .example {
 	display: inline;
 	padding: 3px 5px;
 	background: #ccc;
