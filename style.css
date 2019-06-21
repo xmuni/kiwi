@@ -302,6 +302,8 @@ textarea, #labels
 	display: none;
 	flex-direction: column;
 	align-items: center;
+	border: 2px solid #a7c3e6;
+	border-radius: 3px;
 }
 
 #button-adv-import-export {
