@@ -311,7 +311,8 @@ function parse_line_old(line)
 // [original line, calories, alternative label]
 function parse_line(line)
 {
-
+	while(line.includes("  "))
+		line = line.replace("  "," ");
 	line = line.trim()+" ";
 
 	// Comment
@@ -562,6 +563,45 @@ function export_all()
 	var text = days.join("\r\n\r\n");
 	console.log(text);
 	download(text, "Kiwi.txt", 'text/plain');
+}
+
+function export_all_json()
+{
+	var text = localStorage.getItem(lsname);
+	console.log(text);
+	download(text, "Kiwi.json", 'applicaton/json');
+}
+
+function import_all_json(fileinput)
+{
+    var file = fileinput.files[0];
+    // var textType = /text.*/;
+    
+	// if(file.type.match(textType))
+	// {
+        var reader = new FileReader();
+        
+		reader.onload = function()
+		{
+			var content = reader.result;
+			// content = content.slice(1,content.length-1); // Remove first and last character (")
+			// content = content.replace('\\\"','\"');
+			// content = content.replace('\\n','\n');
+			// console.log(content);
+			console.log("Data successfully loaded from json file.");
+			localStorage.setItem(lsname,content);
+			panel.LoadFromStorage(); // Reload the current day
+
+			// var obj = JSON.parse(content);
+			// localStorage.setItem(lsname,JSON.stringify(obj));
+            // alert(content);
+        }
+        
+		reader.readAsText(file);
+		fileinput.value = null;
+	// }
+	// else
+        // console.log("File not supported");
 }
 
 /*
@@ -877,6 +917,13 @@ function get_average_totalcal(days)
 }
 
 
+function toggle_adv_import_export()
+{
+	var div = document.querySelector("#controls-advanced");
+	div.style.display = div.style.display=="flex" ? "none" : "flex";
+}
+
+
 // Gets the English name of a month number: 10 -> "October"
 function get_month_name(month_number)
 {
@@ -903,10 +950,10 @@ function get_month_name(month_number)
 
 // Default to today and create localStorage if necessary
 var currentdate = new Date();
-var lsname = "kiwi"; // localStorage label for storing the saved days
-var flname = "foodlist"; // localStorage label for foodlist dictionary
-var input_maxcal = "#input-maxcal";
-var offline = false;
+const lsname = "kiwi"; // localStorage label for storing the saved days
+const flname = "foodlist"; // localStorage label for foodlist dictionary
+const input_maxcal = "#input-maxcal";
+const offline = false;
 create_localstorage();
 
 update_next_prev_buttons();
@@ -939,6 +986,12 @@ document.querySelector("#button-next-day").addEventListener("click", function(){
 // Set up the prev/next week buttons to update the calendar only
 document.querySelector("#button-week-prev").addEventListener("click", function(){ shift_calendar(-7) });
 document.querySelector("#button-week-next").addEventListener("click", function(){ shift_calendar(+7) });
+
+// Set up the button to toggle the advanced import/export
+document.querySelector("#button-adv-import-export").addEventListener("click", function(){ toggle_adv_import_export() });
+
+// Set up the file input to import json to localstorage
+document.querySelector("#file-import-json").addEventListener("change", function(){ import_all_json(this) });
 
 // Set up the max cal input to update the header
 document.querySelector(input_maxcal).addEventListener("keyup", function(){ panel.UpdateTotal() });

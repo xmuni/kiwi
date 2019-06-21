@@ -277,6 +277,18 @@ textarea, #labels
 	background: #f1c228;
 }
 
+#bottomcontainer {
+	display: flex;
+	flex-direction: column;
+}
+
+#bottomcontainer input
+{
+	margin: 1rem;
+	margin-bottom: 2.5rem;
+	font-size: 1rem;
+}
+
 #controls
 {
 	width: 100%;
@@ -285,10 +297,21 @@ textarea, #labels
 	justify-content: center;
 }
 
-#controls input
-{
-	margin: 15px;
-	font-size: 1rem;
+#controls-advanced {
+	margin: auto;
+	display: none;
+	flex-direction: column;
+	align-items: center;
+}
+
+#button-adv-import-export {
+	cursor: pointer;
+	color: #186fd3;
+	text-align: center;
+}
+
+#file-import-json {
+	width: 14rem;
 }
 
 #notescontainer

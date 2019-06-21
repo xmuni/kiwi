@@ -60,31 +60,41 @@
 		</div>
 	</div>
 
-	<div id="controls">
-		<input type="button" onclick="download_txt();" value="Download current day as text file">
-		<input type="button" onclick="export_all();" value="Download all days as text file">
-		<input type="button" onclick="clear_textarea();" value="Clear current day">
-	</div>
+	<div id="bottomcontainer">
 
-	<div id="notescontainer">
-		<div id="notes">
-			<div class=note-heading>Tips</div>
-			<ul>
-				<li>Each food entry should be formatted like this: <div class="example">30g potatoes</div></li>
-				<li>You can enter calories manually. Try typing <div class="example">400kcal</div></li>
-				<li>Instead of typing the weight, you can type the number of items by adding an 'x': <div class="example">5x olives</div></li>
-				<li>You can set custom foods if you know the calories per 100g.<br/>
-					Try this: <div class="example">15g chocolate 200kcal</div></li>
-			</ul>
+		<div id="controls">
+			<input type="button" onclick="download_txt();" value="Download current day as text file">
+			<input type="button" onclick="export_all();" value="Download all days as text file">
+			<input type="button" onclick="clear_textarea();" value="Clear current day">
+		</div>
+		
+		<div id="button-adv-import-export">Advanced import/export</div>
+		<div id="controls-advanced">
+			<input type="button" onclick="export_all_json();" value="Export all days as json">
+			<div><strong>Import all days as json:</strong></div>
+			<input type="file" accept=".json" name="" id="file-import-json" onclick="" value="">
 		</div>
 
-		<div id="settings">
-			<div class=note-heading>Settings</div>
-			<div id="settings-maxcal"><input id="input-maxcal" type="text" placeholder="1200" width="15"> Max daily calories</div>
-			<div id="settings-avg">Average calories in the last<input type="text" name="" placeholder="7">non-empty days: <div id="avg-cal">1000 cal</div></div>
-		</div>
-	</div>
+		<div id="notescontainer">
+			<div id="notes">
+				<div class=note-heading>Tips</div>
+				<ul>
+					<li>Each food entry should be formatted like this: <div class="example">30g potatoes</div></li>
+					<li>You can enter calories manually. Try typing <div class="example">400kcal</div></li>
+					<li>Instead of typing the weight, you can type the number of items by adding an 'x': <div class="example">5x olives</div></li>
+					<li>You can set custom foods if you know the calories per 100g.<br/>
+						Try this: <div class="example">15g chocolate 200kcal</div></li>
+				</ul>
+			</div>
 
+			<div id="settings">
+				<div class=note-heading>Settings</div>
+				<div id="settings-maxcal"><input id="input-maxcal" type="text" placeholder="1200" width="15"> Max daily calories</div>
+				<div id="settings-avg">Average calories in the last<input type="text" name="" placeholder="7">non-empty days: <div id="avg-cal">1000 cal</div></div>
+			</div>
+		</div>
+
+	</div>
 
 	<script type="text/javascript" src="script_v2.js"></script>
 </body>
