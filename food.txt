@@ -18,11 +18,10 @@
 164,	0,	chickpea, ceci
 149,	0,	pasta
 149,	0,	spaghetti
-89,		0,	banana, banane
+89,		130,banana, banane
 52,		150,apple, mela, mele
 21,		11,	sundried tomato, pomodori soleggiati, pomodori secchi
 124,	0,	bean, fagioli
-615,	0,	mixed nut, noci
 241,	0,	apricot, albicocche, albicocca
 579,	0,	almond, mandorle
 35,		0,	string bean, fagiolini
@@ -49,12 +48,12 @@
 46,		0,	cranberry juice
 61,		0,	kiwi
 567,	0,	peanut, arachidi
-50,		0,	cherry, cherries, ciliegie, ciliegia
+50,		0,	cherry, cherrie, ciliegie, ciliegia
 30,		0,	watermelon, anguria, angurie
 384,    8,  fette biscottate, fetta biscottata, zwieback
 423,    11, biscotto, biscotti
 110,    125,yogurt
 350,    0,  brioche, croissant
 69,     5,  uva, grape
-654,    4,  walnut, noce, noci
+654,    4,  nut, mixed nut, walnut, noce, noci
 207,    0,  gelato, ice cream
