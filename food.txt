@@ -1,11 +1,11 @@
 // col 1: calories per 100g
 // col 2: weight per unit (e.g. 1x olive)
 // col 3: food names
-145,	0,	olive
+145,	10, olive, oliva
 35,		0,	broccoli
 252,	0,	bread, pane
 130,	0,	rice, riso
-18,		0,	tomato, tomatoe, pomodoro
+18,		120,tomato, tomatoe, pomodoro
 53,		0,	mandarin
 244,	0,	salmon
 71,		0,	artichoke, carciofo, carciofi
@@ -53,5 +53,8 @@
 30,		0,	watermelon, anguria, angurie
 384,    8,  fette biscottate, fetta biscottata, zwieback
 423,    11, biscotto, biscotti
-75,     0,  yogurt
+110,    125,yogurt
 350,    0,  brioche, croissant
+69,     5,  uva, grape
+654,    4,  walnut, noce, noci
+207,    0,  gelato, ice cream
