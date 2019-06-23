@@ -32,6 +32,35 @@ class Panel
 		// this.LoadFromStorage();
 	}
 
+	LoadFromStorage() // Load items to textbox and update the localStorage
+	{
+		var storage_text = localStorage.getItem(lsname);
+		var storage_obj = JSON.parse(storage_text);
+	
+		var datecode = get_date_string(currentdate);
+		if(datecode in storage_obj && storage_obj[datecode].hasOwnProperty("text"))
+		{
+			// console.log("Loading from storage");
+			textarea.value = storage_obj[datecode]["text"];
+		}
+		else
+		{
+			// console.log("Loading nothing");
+			textarea.value = "";
+		}
+
+		if(ksname in localStorage)
+		{
+			var settings_obj = JSON.parse(localStorage.getItem(ksname));
+			if("maxcal" in settings_obj)
+				document.querySelector(input_maxcal).value = settings_obj["maxcal"];
+		}
+
+		this.UpdateStorage();
+		this.UpdateTotal();
+		this.WriteLabels();
+	}
+
 	UpdateStorage()
 	{
 		var lines = this.textarea.value.split('\n');
@@ -149,28 +178,6 @@ class Panel
 			}
 			localStorage.setItem(lsname, JSON.stringify(storage_obj));
 		}
-	}
-
-	LoadFromStorage() // Load items to textbox and update the localStorage
-	{
-		var storage_text = localStorage.getItem(lsname);
-		var storage_obj = JSON.parse(storage_text);
-	
-		var datecode = get_date_string(currentdate);
-		if(datecode in storage_obj && storage_obj[datecode].hasOwnProperty("text"))
-		{
-			// console.log("Loading from storage");
-			textarea.value = storage_obj[datecode]["text"];
-		}
-		else
-		{
-			// console.log("Loading nothing");
-			textarea.value = "";
-		}
-
-		this.UpdateStorage();
-		this.UpdateTotal();
-		this.WriteLabels();
 	}
 
 	ExportTxt()
@@ -880,6 +887,11 @@ function set_clickable_calendar()
 function get_max_cal()
 {
 	var value = document.querySelector(input_maxcal).value;
+
+	// Update kiwi settings (localstorage)
+	var settings_obj = (ksname in localStorage) ? JSON.parse(localStorage.getItem(ksname)) : {};
+	settings_obj["maxcal"] = value;
+	localStorage.setItem(ksname,JSON.stringify(settings_obj));
 	
 	if(value === "")
 		return 0;
@@ -952,6 +964,7 @@ function get_month_name(month_number)
 var currentdate = new Date();
 const lsname = "kiwi"; // localStorage label for storing the saved days
 const flname = "foodlist"; // localStorage label for foodlist dictionary
+const ksname = "kiwi-settings"; // localStorage label for foodlist dictionary
 const input_maxcal = "#input-maxcal";
 const offline = false;
 create_localstorage();
