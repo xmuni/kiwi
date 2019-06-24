@@ -527,7 +527,7 @@ function day_to_string(datecode)
 			var alt = info[2]; // alternate label
 			
 			var label = alt;
-			if(alt === "")
+			if(cal > 0)
 			{
 				label = Math.round(cal);
 				totalcal += cal;
