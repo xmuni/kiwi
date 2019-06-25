@@ -30,7 +30,7 @@
 112,	0,	couscous, cous cous
 54,		0,	soymilk, latte di soia
 227,	125,pizza
-155,	0,	egg, uova, uovo
+155,	0,	egg, uova, uovo, omelette, frittata
 198,	0,	tuna, tonno
 156,	0,	mackerel, sgombro, sgombri
 133,	0,	gnocchi
@@ -57,3 +57,4 @@
 69,     5,  uva, grape
 654,    4,  nut, mixed nut, walnut, noce, noci
 207,    0,  gelato, ice cream
+100,    0,  farro
